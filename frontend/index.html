@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Manager</title>
+  <style>
+    button { margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Task Manager</h1>
+  <form id="taskForm">
+    <input type="text" id="title" placeholder="Title" required />
+    <input type="text" id="description" placeholder="Description" />
+    <button type="submit">Add Task</button>
+  </form>
+  <ul id="taskList"></ul>
+
+  <script>
+    const form = document.getElementById('taskForm');
+    const taskList = document.getElementById('taskList');
+
+    // Load all tasks on page load
+    async function loadTasks() {
+      taskList.innerHTML = '';
+      const res = await fetch('/api/tasks');
+      const tasks = await res.json();
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = `${task.title} - ${task.description || ''}`;
+
+        // Read button
+        const readBtn = document.createElement('button');
+        readBtn.textContent = 'Read';
+        readBtn.onclick = async () => {
+          const res = await fetch(`/api/tasks/${task._id}`);
+          const data = await res.json();
+          alert(`Title: ${data.title}\nDescription: ${data.description || ''}`);
+        };
+
+        // Edit button
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit';
+        editBtn.onclick = async () => {
+          const newTitle = prompt('Edit title:', task.title);
+          const newDesc = prompt('Edit description:', task.description || '');
+          if (newTitle !== null) {
+            await fetch(`/api/tasks/${task._id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ title: newTitle, description: newDesc })
+            });
+            loadTasks();
+          }
+        };
+
+        // Delete button
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.onclick = async () => {
+          await fetch(`/api/tasks/${task._id}`, { method: 'DELETE' });
+          loadTasks();
+        };
+
+        li.appendChild(readBtn);
+        li.appendChild(editBtn);
+        li.appendChild(delBtn);
+        taskList.appendChild(li);
+      });
+    }
+
+    // Add new task
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      await fetch('/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description })
+      });
+      form.reset();
+      loadTasks();
+    });
+
+    loadTasks();
+  </script>
+</body>
+</html>
