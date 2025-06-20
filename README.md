@@ -33,7 +33,7 @@ A simple Node.js + MongoDB API for managing tasks, with an optional frontend.
    npm run dev
    ```
 
-##  How to Run the Frontend (Optional)
+##  How to Run the Frontend 
 
 - The frontend is served automatically at [http://localhost:5000/](http://localhost:5000/) when the server is running.
 
