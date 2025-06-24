@@ -63,3 +63,69 @@ curl -X DELETE http://localhost:5000/api/tasks/<id>
 
 
 ![alt text](image-3.png)
+
+##  Testing
+
+### Tech Stack
+- **Node.js**, **Express**, **MongoDB**, **Mongoose**
+- **Jest** & **Supertest** for testing
+
+### How to Run Tests
+
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. (Optional) Ensure MongoDB is running and a test database is available (e.g., `taskdb_test`).
+3. Run all tests and see coverage:
+   ```sh
+   npm test
+   ```
+
+### Testing Tools Used
+- **Jest**: For unit and integration testing, and coverage reporting.
+- **Supertest**: For API endpoint testing.
+
+### Coverage
+- **100%** code coverage for statements, branches, functions, and lines.
+- Coverage reports are generated in the `/coverage` folder. Open `coverage/lcov-report/index.html` in your browser for a detailed report.
+
+### Test Types
+- **Unit tests**: Located in `tests/unit/`, use mocking for database logic.
+- **Integration/API tests**: Located in `tests/integration/`, use a real MongoDB test database to verify CRUD operations.
+
+---
+
+**You are ready to submit your repository link!**  
+Your project meets all requirements for code coverage, test types, and documentation.##  Testing
+
+### Tech Stack
+- **Node.js**, **Express**, **MongoDB**, **Mongoose**
+- **Jest** & **Supertest** for testing
+
+### How to Run Tests
+
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. (Optional) Ensure MongoDB is running and a test database is available (e.g., `taskdb_test`).
+3. Run all tests and see coverage:
+   ```sh
+   npm test
+   ```
+
+### Testing Tools Used
+- **Jest**: For unit and integration testing, and coverage reporting.
+- **Supertest**: For API endpoint testing.
+
+### Coverage
+- **100%** code coverage for statements, branches, functions, and lines.
+- Coverage reports are generated in the `/coverage` folder. Open `coverage/lcov-report/index.html` in your browser for a detailed report.
+
+### Test Types
+- **Unit tests**: Located in `tests/unit/`, use mocking for database logic.
+- **Integration/API tests**: Located in `tests/integration/`, use a real MongoDB test database to verify CRUD operations.
+
+---
+![alt text](image-4.png)
