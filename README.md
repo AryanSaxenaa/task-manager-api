@@ -2,6 +2,25 @@
 
 A simple Node.js + MongoDB API for managing tasks, with an optional frontend.
 
+## 📖 API Documentation
+
+Interactive API documentation is available via Swagger UI:
+
+- **Swagger UI**: [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+
+The Swagger documentation includes:
+- Complete API endpoint details
+- Request/response schemas
+- Interactive API testing interface
+- Example requests and responses
+
+### OpenAPI Schema
+
+The API follows OpenAPI 3.0 specification and includes:
+- **Task Schema**: Complete task object structure
+- **TaskInput Schema**: Input validation for creating/updating tasks
+- **Error Handling**: Standardized error response format
+
 ##  API Endpoints
 
 | Method | Endpoint           | Description            |
