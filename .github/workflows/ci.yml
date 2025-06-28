@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Wait for MongoDB
+      run: |
+        echo "Waiting for MongoDB to be ready..."
+        sleep 10
+
+    - name: Run unit tests
+      run: npm test
+      env:
+        MONGO_URI: mongodb://localhost:27017/taskdb_test
+        PORT: 5000
+
+    - name: Start server in background
+      run: |
+        npm start &
+        echo "Server started in background"
+        sleep 5
+        curl -f http://localhost:5000/ || (echo "Server failed to start" && exit 1)
+      env:
+        MONGO_URI: mongodb://localhost:27017/taskdb_test
+        PORT: 5000
+
+    - name: Install Keploy
+      run: |
+        curl --silent --location "https://github.com/keploy/keploy/releases/latest/download/keploy_linux_amd64.tar.gz" | tar xz -C /tmp
+        sudo mkdir -p /usr/local/bin && sudo mv /tmp/keploy /usr/local/bin
+
+    - name: Run Keploy tests
+      run: |
+        if [ -n "${{ secrets.KEPLOY_API_KEY }}" ]; then
+          export KEPLOY_API_KEY="${{ secrets.KEPLOY_API_KEY }}"
+          keploy test-suite --app=dfe08a4f-1068-4e87-8c79-41583f9cc015 --base-path http://localhost:5000/ --cloud
+        else
+          echo "Keploy API key not found, skipping Keploy tests"
+          echo "Please add KEPLOY_API_KEY to your repository secrets"
+        fi
+      continue-on-error: true
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      if: always()
+      with:
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
