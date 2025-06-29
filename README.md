@@ -208,8 +208,6 @@ curl -X DELETE http://localhost:5000/api/tasks/<id>
 
 ![Screenshot 2025-06-28 104741](https://github.com/user-attachments/assets/5ea9e962-405c-4078-a25d-52bac9e8b4fa)
 
-![Screenshot 2025-06-28 112403](https://github.com/user-attachments/assets/221b0294-3b0d-4349-92a4-f6ca65d3e637)
-
 ![Screenshot 2025-06-28 112403](https://github.com/user-attachments/assets/39888801-81c0-4ba1-9eb9-dfb7404dc4c2)
 
 ![Screenshot 2025-06-28 115443](https://github.com/user-attachments/assets/95c5cea0-3ca8-475f-9972-68ddfb590961)
